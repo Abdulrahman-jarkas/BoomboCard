@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    No database provider package.
+
+    Two other modules' Contracts, and neither module. Customers.Contracts supplies the
+    authorization policy names its endpoints require, ICurrentActor for attributing a manual
+    adjustment, and two integration events. Sales.Contracts supplies OrderPaid and OrderRefunded
+    — the triggers the earn rule was built for in Phase 3 and could not subscribe to until Sales
+    existed. Note the direction: Sales references Loyalty.Contracts and Loyalty references
+    Sales.Contracts, which is not a cycle because neither Contracts project references a module.
+    That is the one direction a module may see another — asserted by
+    Modules_SeeEachOtherOnlyThroughContracts.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.Loyalty.Contracts\BoomboCard.Loyalty.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Customers.Contracts\BoomboCard.Customers.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Sales.Contracts\BoomboCard.Sales.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel.Persistence\BoomboCard.SharedKernel.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="BoomboCard.Loyalty.Tests" />
+    <InternalsVisibleTo Include="BoomboCard.Loyalty.Migrations.SqlServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
+</Project>

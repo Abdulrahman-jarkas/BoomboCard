@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    Catalog's public surface. Other modules reference THIS, never BoomboCard.Catalog.
+
+    Direction matters: Catalog owns these contracts, so Sales referencing DeductStockCommand
+    creates a dependency pointing Sales -> Catalog. If Catalog instead subscribed to a
+    CheckoutSessionCreated event, the dependency would point Catalog -> Sales — making the
+    module everything else depends on depend on one of its own consumers.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+
+</Project>

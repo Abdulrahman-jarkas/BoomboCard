@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BoomboCard.Loyalty\BoomboCard.Loyalty.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The same engine the application runs on. The balance invariant here is carried by a
+      concurrency token and the idempotency by a unique index, and the InMemory provider has
+      neither (Onyx T6) — so every race test would pass vacuously.
+    -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

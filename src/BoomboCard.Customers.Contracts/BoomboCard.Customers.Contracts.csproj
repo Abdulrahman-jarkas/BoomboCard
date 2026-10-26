@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    Customers' published surface. Primitives, requests, integration events, the authorization
+    vocabulary, and the one seam the host fills in (IAccessTokenIssuer).
+
+    No EF Core, no ASP.NET Core, no reference to BoomboCard.Customers — asserted by
+    Contracts_DoNotDependOnInfrastructureOrTheModule.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    No database provider package, and NO HTTP CLIENT PACKAGE EITHER.
+
+    The second absence is the interesting one. IPaymentGateway is declared here and implemented
+    in the host, for the same reason IAccessTokenIssuer is: the base address, the API key, the
+    retry policy and the TLS configuration are deployment concerns. A module that decides what a
+    payment MEANS should not also own how to reach a particular vendor.
+
+    It also makes Onyx S8 structurally harder to reintroduce. That finding is
+    ServerCertificateCustomValidationCallback = (_, _, _, _) => true on the payment gateway
+    client; a module with no handler type in scope cannot write that line at all. The
+    source-convention test bans it across the whole solution regardless.
+
+    Sales.Contracts is referenced for one query: the order's total, because the amount a payment
+    takes is derived server-side and never supplied by a caller (M2).
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.Payments.Contracts\BoomboCard.Payments.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Customers.Contracts\BoomboCard.Customers.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Sales.Contracts\BoomboCard.Sales.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel.Persistence\BoomboCard.SharedKernel.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="BoomboCard.Payments.Tests" />
+    <InternalsVisibleTo Include="BoomboCard.Payments.Migrations.SqlServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
+</Project>

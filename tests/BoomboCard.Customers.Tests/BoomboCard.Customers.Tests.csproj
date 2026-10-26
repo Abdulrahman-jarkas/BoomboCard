@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BoomboCard.Customers\BoomboCard.Customers.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.Api\BoomboCard.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The same engine the application runs on. Not the InMemory provider (Onyx T6 — it enforces
+      no unique indexes, constraints, transactions or concurrency tokens, so it could not have
+      caught the missing email uniqueness or the single-use token race even in principle), and
+      not SQLite either: three of the eight bugs in docs/BUGS-AND-LESSONS.md were provider
+      behaviour rather than logic.
+    -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BoomboCard.Notifications\BoomboCard.Notifications.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The same engine the application runs on. This module's central guarantee —
+      UX_Notifications_Idempotency on (Kind, Reference), which is what stops a redelivered event
+      sending a second email — is a unique index, and the InMemory provider has none (Onyx T6),
+      so a test of it there would pass while asserting nothing.
+    -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

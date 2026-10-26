@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    The rules that apply to EVERY module, in one project, driven by the registry in Modules.cs.
+
+    They lived in BoomboCard.Catalog.Tests while there was one module. Keeping them there would
+    have meant either re-stating every layering rule in each new module's test project, or
+    quietly not asserting them — and a rule asserted for one module out of seven is not a rule.
+    Adding a module is now one entry in Modules.All.
+
+    It references the host so the composition root itself can be asserted: that the container
+    builds with scope validation on, and that each module's transaction boundary is wired.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BoomboCard.Api\BoomboCard.Api.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.Catalog\BoomboCard.Catalog.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.Promotions\BoomboCard.Promotions.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.Loyalty\BoomboCard.Loyalty.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.Sales\BoomboCard.Sales.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.Payments\BoomboCard.Payments.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.Notifications\BoomboCard.Notifications.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NetArchTest.Rules" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

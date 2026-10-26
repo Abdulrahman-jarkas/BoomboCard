@@ -1,0 +1,43 @@
+# The dashboard. One command, no configuration:
+#
+#   docker compose -f docker-compose.observability.yml up -d
+#   dotnet run --project src/BoomboCard.Api
+#
+# then open http://localhost:18888 and go to Traces.
+#
+# Why the Aspire dashboard rather than Jaeger, Zipkin or a Collector-plus-backend stack: it
+# ingests plain OTLP, which is all this application speaks, and it shows traces, structured logs
+# and metrics in one place with the trace/span correlation already wired up. Nothing in the
+# application knows it is this dashboard — ObservabilityOptions.OtlpEndpoint is a URL, and
+# 4317 is the port Jaeger, Tempo, the OpenTelemetry Collector and every other OTLP receiver
+# listen on. Swap the image and the application does not change.
+#
+# It is also the reason this file is separate from any application compose file: observability is
+# a deployment concern here, the same way the database provider and the payment gateway are, and
+# the application runs perfectly well with none of it (Observability:Enabled = false, or simply
+# nothing listening on 4317).
+services:
+  dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    container_name: boombocard-dashboard
+    ports:
+      # The UI.
+      - "18888:18888"
+      # OTLP/gRPC, where the API sends spans, logs and metrics.
+      - "4317:18889"
+    environment:
+      # No login token. This dashboard holds development telemetry on a loopback port, and a
+      # token to copy out of `docker logs` on every restart is friction with nothing behind it.
+      #
+      # Deliberately NOT how the application's own secrets are handled: Jwt:Key and the gateway
+      # key are absent from appsettings.json so production cannot start without real ones. The
+      # difference is that this container is a local viewer that is never deployed, which is the
+      # whole reason the distinction is safe to make. Do not copy this line into anything that
+      # is reachable from somewhere else.
+      - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
+      # Keep more than the default so a flow can still be found a while after triggering it —
+      # the outbox poll, the expiry sweeps and the reconciliation jobs are deliberately slowed
+      # down in development precisely so they can be watched.
+      - DASHBOARD__TELEMETRYLIMITS__MAXTRACECOUNT=20000
+      - DASHBOARD__TELEMETRYLIMITS__MAXLOGCOUNT=20000
+    restart: unless-stopped

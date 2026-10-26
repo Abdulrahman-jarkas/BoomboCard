@@ -1,0 +1,39 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BoomboCard.SharedKernel/BoomboCard.SharedKernel.csproj" />
+    <Project Path="src/BoomboCard.SharedKernel.Persistence/BoomboCard.SharedKernel.Persistence.csproj" />
+    <Project Path="src/BoomboCard.Catalog/BoomboCard.Catalog.csproj" />
+    <Project Path="src/BoomboCard.Catalog.Contracts/BoomboCard.Catalog.Contracts.csproj" />
+    <Project Path="src/BoomboCard.Catalog.Migrations.SqlServer/BoomboCard.Catalog.Migrations.SqlServer.csproj" />
+    <Project Path="src/BoomboCard.Customers/BoomboCard.Customers.csproj" />
+    <Project Path="src/BoomboCard.Customers.Contracts/BoomboCard.Customers.Contracts.csproj" />
+    <Project Path="src/BoomboCard.Customers.Migrations.SqlServer/BoomboCard.Customers.Migrations.SqlServer.csproj" />
+    <Project Path="src/BoomboCard.Promotions/BoomboCard.Promotions.csproj" />
+    <Project Path="src/BoomboCard.Promotions.Contracts/BoomboCard.Promotions.Contracts.csproj" />
+    <Project Path="src/BoomboCard.Promotions.Migrations.SqlServer/BoomboCard.Promotions.Migrations.SqlServer.csproj" />
+    <Project Path="src/BoomboCard.Loyalty/BoomboCard.Loyalty.csproj" />
+    <Project Path="src/BoomboCard.Loyalty.Contracts/BoomboCard.Loyalty.Contracts.csproj" />
+    <Project Path="src/BoomboCard.Loyalty.Migrations.SqlServer/BoomboCard.Loyalty.Migrations.SqlServer.csproj" />
+    <Project Path="src/BoomboCard.Sales/BoomboCard.Sales.csproj" />
+    <Project Path="src/BoomboCard.Sales.Contracts/BoomboCard.Sales.Contracts.csproj" />
+    <Project Path="src/BoomboCard.Sales.Migrations.SqlServer/BoomboCard.Sales.Migrations.SqlServer.csproj" />
+    <Project Path="src/BoomboCard.Payments/BoomboCard.Payments.csproj" />
+    <Project Path="src/BoomboCard.Payments.Contracts/BoomboCard.Payments.Contracts.csproj" />
+    <Project Path="src/BoomboCard.Payments.Migrations.SqlServer/BoomboCard.Payments.Migrations.SqlServer.csproj" />
+    <Project Path="src/BoomboCard.Notifications/BoomboCard.Notifications.csproj" />
+    <Project Path="src/BoomboCard.Notifications.Contracts/BoomboCard.Notifications.Contracts.csproj" />
+    <Project Path="src/BoomboCard.Notifications.Migrations.SqlServer/BoomboCard.Notifications.Migrations.SqlServer.csproj" />
+    <Project Path="src/BoomboCard.Api/BoomboCard.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BoomboCard.ArchitectureTests/BoomboCard.ArchitectureTests.csproj" />
+    <Project Path="tests/BoomboCard.Catalog.Tests/BoomboCard.Catalog.Tests.csproj" />
+    <Project Path="tests/BoomboCard.Customers.Tests/BoomboCard.Customers.Tests.csproj" />
+    <Project Path="tests/BoomboCard.Promotions.Tests/BoomboCard.Promotions.Tests.csproj" />
+    <Project Path="tests/BoomboCard.Loyalty.Tests/BoomboCard.Loyalty.Tests.csproj" />
+    <Project Path="tests/BoomboCard.Sales.Tests/BoomboCard.Sales.Tests.csproj" />
+    <Project Path="tests/BoomboCard.Payments.Tests/BoomboCard.Payments.Tests.csproj" />
+    <Project Path="tests/BoomboCard.Notifications.Tests/BoomboCard.Notifications.Tests.csproj" />
+    <Project Path="tests/BoomboCard.Observability.Tests/BoomboCard.Observability.Tests.csproj" />
+  </Folder>
+</Solution>

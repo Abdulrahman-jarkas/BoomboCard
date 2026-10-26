@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BoomboCard.Catalog\BoomboCard.Catalog.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.Api\BoomboCard.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The same engine the application runs on. Not the InMemory provider (Onyx T6 — it enforces
+      no unique indexes, constraints, transactions or concurrency tokens, so it could not have
+      caught the missing SKU uniqueness or the stock race even in principle), and no longer
+      SQLite either: a suite that passes on a database nobody deploys is testing a different
+      system. See SqlServerFixture.
+    -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NetArchTest.Rules" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

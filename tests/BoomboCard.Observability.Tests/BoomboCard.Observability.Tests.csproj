@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    References the shared plumbing and NO module.
+
+    That is the point of having its own project rather than adding these tests to one module's
+    suite. The property under test — a trace surviving the outbox handoff — belongs to
+    SharedKernel.Persistence and is inherited identically by all seven modules, so testing it
+    through Customers would tie a shared guarantee to one arbitrary module's internals, which
+    InternalsVisibleTo would then have to be widened for.
+
+    It brings its own DbContext instead (see TracingFixture), assembled from the same
+    AddModulePersistence / OutboxMessageConfiguration pieces a real module uses.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\src\BoomboCard.SharedKernel.Persistence\BoomboCard.SharedKernel.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Real SQL Server, for the same reason every other suite here uses it: the outbox row has to
+      make an actual round trip through actual nvarchar columns for the propagation test to mean
+      anything. The InMemory provider would store the traceparent as a .NET string in a
+      dictionary and prove nothing about the column it has to fit in.
+    -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

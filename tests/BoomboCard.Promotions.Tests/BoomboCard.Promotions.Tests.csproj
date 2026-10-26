@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BoomboCard.Promotions\BoomboCard.Promotions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The same engine the application runs on. The two unique indexes and the concurrency token
+      in this module cannot be tested on the InMemory provider at all (Onyx T6) — it enforces no
+      unique indexes, no constraints and no concurrency tokens, so every cap-under-a-race test
+      here would pass vacuously.
+    -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

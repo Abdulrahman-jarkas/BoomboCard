@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    UNIT TESTS ONLY, by request, and therefore no database package.
+
+    What that leaves unverified is worth stating rather than leaving implicit, because this
+    module's guarantees are unusually database-shaped: PaymentClaims' primary key (one payment
+    able to take money per order, M3), UX_Payments_IdempotencyKey, and
+    UX_Refunds_Idempotency are all asserted by configuration and reasoning here, not by a test
+    that inserts a conflicting row. See README for the list.
+
+    Everything that is pure — the state machine, the four-way outcome mapping, the refund
+    arithmetic, the reference value objects — is covered, and those carry M1, M4, M5 and A39.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BoomboCard.Payments\BoomboCard.Payments.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

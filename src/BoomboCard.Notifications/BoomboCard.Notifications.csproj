@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    No database provider package, and NO HTTP OR SMTP PACKAGE EITHER.
+
+    INotificationSender is declared here and implemented in the host, for the same reason
+    IPaymentGateway and IAccessTokenIssuer are: the provider, its credential, its base address
+    and its timeout are deployment concerns. It also makes Onyx S8 structurally harder to
+    reintroduce — a module with no handler type in scope cannot set
+    ServerCertificateCustomValidationCallback at all. The source-convention test bans it across
+    the whole solution regardless.
+
+    FIVE other modules' Contracts and none of their modules. This is the most-connected module in
+    the system, because a notification is downstream of almost everything that happens — eleven
+    integration events across four of them, plus Customers' summary query to address a message.
+    Which makes it the best test of whether the Contracts seam is real.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.Notifications.Contracts\BoomboCard.Notifications.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Customers.Contracts\BoomboCard.Customers.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Sales.Contracts\BoomboCard.Sales.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Payments.Contracts\BoomboCard.Payments.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Loyalty.Contracts\BoomboCard.Loyalty.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel.Persistence\BoomboCard.SharedKernel.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="BoomboCard.Notifications.Tests" />
+    <InternalsVisibleTo Include="BoomboCard.Notifications.Migrations.SqlServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Produces the XML file the OpenAPI document picks schema descriptions up from. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    No database provider package, and no JWT package either. The host chooses the provider via
+    AddCustomersModule, and the host implements IAccessTokenIssuer — so this module decides
+    WHETHER someone is who they say they are, and knows nothing about what a token proving it
+    looks like or where it is stored.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.Customers.Contracts\BoomboCard.Customers.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel.Persistence\BoomboCard.SharedKernel.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="BoomboCard.Customers.Tests" />
+    <InternalsVisibleTo Include="BoomboCard.Customers.Migrations.SqlServer" />
+  </ItemGroup>
+
+  <!--
+    The module owns its own HTTP endpoints, so it needs the ASP.NET Core framework reference.
+    That does NOT make it depend on the host: the host composes modules and knows nothing about
+    their routes.
+  -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <!--
+      Note what is NOT here: a package reference for the password hasher.
+
+      PasswordHasher<T> lives in Microsoft.Extensions.Identity.Core, which ships inside the
+      Microsoft.AspNetCore.App shared framework this module already references for its
+      endpoints. Referencing the package explicitly raises NU1510, and this codebase does not
+      ship warnings (Onyx S18 shipped with NU1903 on every single compile).
+
+      It is still ONE TYPE from that framework and nothing else: no IdentityDbContext, no
+      IdentityUser, no UserManager, no stores, no tables this system does not use. The Customer
+      aggregate stays ours; only the part that should never be hand-written is borrowed — Onyx's
+      hand-written version is S7, one unsalted SHA-256 pass compared with ==.
+    -->
+  </ItemGroup>
+
+</Project>

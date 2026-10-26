@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Catalog's migrations for SQL Server, in their own assembly.
+
+    Why this project exists:
+
+    BoomboCard.Catalog is provider-agnostic at RUNTIME — AddCatalogModule takes an
+    Action<DbContextOptionsBuilder> and the host picks the database. But migrations are not
+    provider-agnostic and cannot be: EF generates a model snapshot that calls provider-specific
+    APIs (SqlServerModelBuilderExtensions.UseIdentityColumns, sequence configuration, native
+    column types), so the generated code does not compile without the provider referenced.
+
+    Putting the provider into the module to make that compile would weld the module to SQL
+    Server and make the whole AddCatalogModule(Action<...>) seam a fiction. Instead the module
+    stays clean and the provider-specific artefact lives here. Moving to PostgreSQL means adding
+    BoomboCard.Catalog.Migrations.Npgsql alongside this, not editing the module.
+
+    The host wires it with MigrationsAssembly(...).
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.Catalog\BoomboCard.Catalog.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+  </ItemGroup>
+
+</Project>

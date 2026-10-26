@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Produces the XML file the OpenAPI document picks schema descriptions up from. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    No database provider package. The host chooses the provider and passes it in via
+    AddCatalogModule, so the module is not welded to one database.
+
+    Onyx claimed "swapping the provider later is a one-line change in Program.cs" (X13) while
+    using raw SQL with SQLite-specific COLLATE NOCASE, EnsureCreated() instead of migrations,
+    and no configured decimal precision.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.Catalog.Contracts\BoomboCard.Catalog.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel.Persistence\BoomboCard.SharedKernel.Persistence.csproj" />
+  </ItemGroup>
+
+  <!--
+    The module owns its own HTTP endpoints, so it needs the ASP.NET Core framework reference.
+    This is the modular-monolith shape: the host composes modules and knows nothing about their
+    routes. It does NOT make the module depend on the host.
+  -->
+  <!-- The test project needs the internal DbContext to assert the model and concurrency. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="BoomboCard.Catalog.Tests" />
+    <InternalsVisibleTo Include="BoomboCard.Catalog.Migrations.SqlServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.GuardClauses" />
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
+</Project>

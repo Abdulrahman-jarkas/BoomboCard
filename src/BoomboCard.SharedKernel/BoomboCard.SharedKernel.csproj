@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Deliberately free of EF Core, ASP.NET Core and any other infrastructure package.
+    Onyx A11: its "pure" domain project referenced Microsoft.EntityFrameworkCore and its
+    pricing service took an IQueryable, while ARCHITECTURE.md claimed "No EF Core, no
+    ASP.NET Core, no knowledge of HTTP or SQL". EF-dependent plumbing lives in
+    BoomboCard.SharedKernel.Persistence instead.
+  -->
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+
+</Project>

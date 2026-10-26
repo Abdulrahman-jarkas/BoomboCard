@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Promotions' migrations for SQL Server, in their own assembly, for the same reason the other
+    modules' are: the module is provider-agnostic at RUNTIME, but EF's generated model snapshot
+    calls provider-specific APIs and will not compile without the provider referenced. Putting
+    the provider into the module to make that compile would make the whole
+    AddPromotionsModule(Action<...>) seam a fiction.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.Promotions\BoomboCard.Promotions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+  </ItemGroup>
+
+</Project>

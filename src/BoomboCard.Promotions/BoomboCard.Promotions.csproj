@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    No database provider package. The host chooses the provider and passes it in via
+    AddPromotionsModule.
+
+    BoomboCard.Customers.Contracts is referenced for the authorization vocabulary only — the
+    policy names its endpoints require and the claim name it reads the customer id from. That is
+    the one direction a module may see another: through Contracts, never the module itself,
+    asserted by Modules_SeeEachOtherOnlyThroughContracts.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.Promotions.Contracts\BoomboCard.Promotions.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.Customers.Contracts\BoomboCard.Customers.Contracts.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+    <ProjectReference Include="..\BoomboCard.SharedKernel.Persistence\BoomboCard.SharedKernel.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="BoomboCard.Promotions.Tests" />
+    <InternalsVisibleTo Include="BoomboCard.Promotions.Migrations.SqlServer" />
+  </ItemGroup>
+
+  <!-- The module owns its own HTTP endpoints, so it needs the framework reference. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
+</Project>

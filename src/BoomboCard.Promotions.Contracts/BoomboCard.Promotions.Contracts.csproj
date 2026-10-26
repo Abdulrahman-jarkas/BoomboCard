@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <!--
+    Promotions' published surface: the validation query the checkout quote calls, the
+    reserve/release commands tied to a session, and the integration events.
+
+    No EF Core, no ASP.NET Core, no reference to BoomboCard.Promotions — asserted by
+    Contracts_DoNotDependOnInfrastructureOrTheModule.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\BoomboCard.SharedKernel\BoomboCard.SharedKernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+
+</Project>
